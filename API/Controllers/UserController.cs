@@ -25,48 +25,15 @@ namespace API.Controllers
         [HttpPut]
         public override async Task<ActionResult<ApiResponse<User>>> Update([FromBody] User user, [FromQuery] string id)
         {
-            try
-            {
-                if (user.Password != null) user.Password = user.Password.GetMD5();
-                var result = await userRepository.UpdateAsync(user, id);
-                if (result == null)
-                {
-                    return StatusCode(400);
-                }
-                return StatusCode(200, result);
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                         $"{ControllerContext.RouteData.Values["controller"].ToString()} - {ControllerContext.RouteData.Values["action"].ToString()}" +
-                         $"Error");
-                return StatusCode(500, ex);
-            }
+            if (user.Password != null) user.Password = user.Password.GetMD5();
+            return await base.Update(user, id);
         }
 
         [HttpPost]
         public override async Task<ActionResult<ApiResponse<User>>> Add([FromBody] User user)
         {
-            try
-            {
-                user.Password = user.Password.GetMD5();
-                var result = await _repository.AddAsync(user);
-
-                if (result == null)
-                {
-                    return StatusCode(404);
-                }
-
-                return StatusCode(202, result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(
-                         $"{ControllerContext.RouteData.Values["controller"].ToString()} - {ControllerContext.RouteData.Values["action"].ToString()}" +
-                         $"Error");
-                return StatusCode(500, ex);
-            }
+            user.Password = user.Password.GetMD5();
+            return await base.Add(user);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 
-
 namespace Domain.General
 {
     public class ApiResponse<T>
