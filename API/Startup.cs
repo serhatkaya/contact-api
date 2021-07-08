@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using API.Helpers;
 
 namespace API
 {
@@ -161,6 +162,8 @@ namespace API
             {
                 endpoints.MapControllers();
             });
+
+            DataSeeder.Seed(app);
         }
     }
 }

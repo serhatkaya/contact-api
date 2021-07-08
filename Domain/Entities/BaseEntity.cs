@@ -6,13 +6,13 @@ namespace Domain.Entities
 {
     public class BaseEntity
     {
-        [Key] public string Id { get; set; }
+        [Key] public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public DateTime? CreatedDate { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string? CreatedUser { get; set; }
+        public string CreatedUser { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public DateTime? UpdatedDate { get; set; }

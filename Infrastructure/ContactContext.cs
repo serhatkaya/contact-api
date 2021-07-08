@@ -26,7 +26,6 @@ namespace Infrastructure
             base.OnModelCreating(builder);
             foreach (var entityType in builder.Model.GetEntityTypes())
             {
-
                 var param = Expression.Parameter(entityType.ClrType);
                 var propMethodInformation = typeof(EF).GetMethod("Property")?.MakeGenericMethod(typeof(bool));
                 var deletedProp = Expression.Call(propMethodInformation, param, Expression.Constant("Deleted"));
@@ -34,30 +33,6 @@ namespace Infrastructure
                 var lambda = Expression.Lambda(compareExpression, param);
                 builder.Entity(entityType.ClrType).HasQueryFilter(lambda);
             }
-
-            builder.Entity<User>()
-                        .Property(e => e.Id)
-                        .ValueGeneratedOnAdd();
-
-            builder.Entity<User>().HasData(
-                 new User() { Id = Guid.NewGuid().ToString() });
-
-
-            #region User
-
-            builder.Entity<User>().HasData(new User
-            {
-                Id = Guid.NewGuid().ToString(),
-                CreatedDate = DateTime.UtcNow,
-                UpdatedDate = DateTime.UtcNow,
-                Name = "Serhat KAYA",
-                Username = "s.kaya@kayaserhat.com",
-                Password = "candie007".GetMD5(),
-                Deleted = false,
-                CreatedUser = Guid.NewGuid().ToString()
-            });
-
-            #endregion
         }
 
         public class ContactContextContextFactory : IDesignTimeDbContextFactory<ContactContext>
